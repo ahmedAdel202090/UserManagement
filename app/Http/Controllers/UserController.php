@@ -13,7 +13,7 @@ class UserController extends Controller
                 'fullName'=>'required|regex:/^[\pL\s\-]+$/u|max:255',
                 'email'=>'required|email|max:255',
                 'password'=>'required|max:255',
-                'phone'=>'required|max:255|regex:/^[0-9]*$/'
+                'phone'=>'required|max:15|regex:/^[0-9]*$/'
             ]);
             if($validator->fails())
             {
