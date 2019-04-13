@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::post('/addUser','UserController@addUser');
+Route::post('/addVacancy','VacancyController@addVacancy');
