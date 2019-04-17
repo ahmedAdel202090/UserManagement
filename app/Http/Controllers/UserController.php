@@ -18,7 +18,7 @@ class UserController extends Controller
             if($validator->fails())
             {
                 return json_encode(['status'=>406,'invalid'=>'some data are invalid','errorMsg'=>$validator->messages()]);
-            } 
+            }
         //add dataBase Logic
         $service=new UserService();
         $insertionStatus=$service->addUser($request);
@@ -30,4 +30,27 @@ class UserController extends Controller
         }
         return json_encode($insertionStatus);
     }
+
+    public function userLogIn(Request $request)
+    {
+            $validator=Validator::make($request->all(),[
+                'email'=>'required|email|max:255',
+                'password'=>'required|max:255',
+            ]);
+            if($validator->fails())
+            {
+                return json_encode(['status'=>406,'invalid'=>'some data are invalid','errorMsg'=>$validator->messages()]);
+            }
+        //check dataBase Logic
+        $service=new UserService();
+        $insertionStatus=$service->userLogIn($request);
+        if($insertionStatus['status']=='success')
+        {
+            //successfully checked
+            $response=['status'=>200,'msg'=>'successfully signed in'];
+            return json_encode($response);
+        }
+        return json_encode($insertionStatus);
+    }
+
 }
