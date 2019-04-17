@@ -3,7 +3,7 @@ namespace App\Services;
 use Illuminate\Http\Request;
 use App\User;
 
-class UserService 
+class UserService
 {
     public function addUser(Request $request)
     {
@@ -17,4 +17,14 @@ class UserService
         $user->save();
         return ['status'=>'success'];
     }
+
+    public function checkUser(Request $request){
+        if((User::where('email','=',$request->input('email'))->exists()) && (User::where('password','=',$request->input('password'))->exists()) )
+        {
+            return ['status'=>'success'];
+        }
+
+
+    }
+
 }
