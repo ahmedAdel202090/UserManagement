@@ -31,7 +31,7 @@ class UserController extends Controller
         return json_encode($insertionStatus);
     }
 
-    public function checkUser(Request $request)
+    public function userLogIn(Request $request)
     {
             $validator=Validator::make($request->all(),[
                 'email'=>'required|email|max:255',
@@ -43,7 +43,7 @@ class UserController extends Controller
             }
         //check dataBase Logic
         $service=new UserService();
-        $insertionStatus=$service->checkUser($request);
+        $insertionStatus=$service->userLogIn($request);
         if($insertionStatus['status']=='success')
         {
             //successfully checked

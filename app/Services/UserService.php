@@ -18,7 +18,7 @@ class UserService
         return ['status'=>'success'];
     }
 
-    public function checkUser(Request $request){
+    public function userLogIn(Request $request){
         if(User::where('email','=',$request->input('email'))->where('password','=',$request->input('password'))->exists() )
         {
             return ['status'=>'success'];

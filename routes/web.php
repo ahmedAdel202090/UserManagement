@@ -17,4 +17,4 @@ Route::get('/', function () {
 
 Route::post('/addUser','UserController@addUser');
 Route::post('/addVacancy','VacancyController@addVacancy');
-Route::get('/checkUser','UserController@checkUser');
+Route::get('/userLogIn','UserController@userLogIn');
