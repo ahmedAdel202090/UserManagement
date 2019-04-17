@@ -19,9 +19,13 @@ class UserService
     }
 
     public function checkUser(Request $request){
-        if((User::where('email','=',$request->input('email'))->exists()) && (User::where('password','=',$request->input('password'))->exists()) )
+        if(User::where('email','=',$request->input('email'))->where('password','=',$request->input('password'))->exists() )
         {
             return ['status'=>'success'];
+        }
+        else
+        {
+            return ['status'=>'faild','msg'=>'invalid email OR password'];
         }
 
 
