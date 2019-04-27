@@ -3,25 +3,14 @@ language: php
 php:
   - 7.1
 
-# Commands to be run before environment runs.
-# Installs a linux operating system
-# Installs PHP 7.1
-# Runs composer on laravel and copies over the .env file
-# Installs PHPCodeSniffer
-# Updates Node to 7.7.1 and Npm to the latest version
-# Installs JSHint
 before_script:
-  - phpenv config-rm xdebug.ini
   - cp .env.travis .env
+  - mysql -e 'create database homestead_test;'
   - composer self-update
   - composer install --no-interaction
-  - php artisan key:generate
-  - php artisan migrate
-  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
-  - npm install --global gulp-cli
-  - npm install
-  - gulp --production
 
+script:
+  - vendor/bin/phpunit
 
 cache:
   directories:
