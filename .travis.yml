@@ -1,0 +1,62 @@
+language: php
+
+php:
+  - 7.1
+
+# Commands to be run before environment runs.
+# Installs a linux operating system
+# Installs PHP 7.1
+# Runs composer on laravel and copies over the .env file
+# Installs PHPCodeSniffer
+# Updates Node to 7.7.1 and Npm to the latest version
+# Installs JSHint
+before_script:
+  - phpenv config-rm xdebug.ini
+  - cp .env.travis .env
+  - composer self-update
+  - composer install --no-interaction
+  - php artisan key:generate
+  - php artisan migrate
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
+  - npm install --global gulp-cli
+  - npm install
+  - gulp --production
+
+before_install:
+  - mysql -e 'CREATE DATABASE travis;'
+
+services:
+  - mysql
+
+cache:
+  directories:
+    - node_modules
+    - vendor
+    
+env:
+  - TRAVIS_NODE_VERSION="4"
+
+# Commands you want to run that will verify the build.
+script:
+  - phpdbg -qrr vendor/bin/phpunit --coverage-clover=coverage.xml
+  - vendor/bin/phpunit --coverage-text
+  - phpcs --ignore=app/Http/Controllers/Auth,app/Http/Controllers/Controller.php app/Http/Controllers
+  - npm run production
+  - jshint resources/assets/js/modules/*
+
+# allow_failures: Allow this build to fail under the specified environments.
+# fast_finish: If your build fails do not continue trying to build, just stop.
+matrix:
+  allow_failures:
+    - php: 7.1
+    - php: hhvm
+  fast_finish: true
+
+# When the notification emails are sent.
+notifications:
+    on_success: never
+    on_failure: always
+    
+    email:
+    - ahmedmaher072@gmail.com
+    - ahmed.adel202090@gmail.com
