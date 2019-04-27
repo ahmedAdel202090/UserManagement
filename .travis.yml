@@ -1,22 +1,33 @@
 language: php
 
 php:
-  - 5.4
-  - 5.5
-  - 5.6
-  - 7.0
-  - hhvm
+  - 7.1
 
 # Commands to be run before environment runs.
+# Installs a linux operating system
+# Installs PHP 7.1
+# Runs composer on laravel and copies over the .env file
+# Installs PHPCodeSniffer
+# Updates Node to 7.7.1 and Npm to the latest version
+# Installs JSHint
+
 before_script:
   - cp .env.travis .env
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
+  - pear install pear/PHP_CodeSniffer
+  - phpenv rehash
+  - nvm install 7.7.1
+  - npm install npm@latest -g
+  - npm install -g jshint
+  - npm install
 
 # Commands you want to run that will verify the build.
 script:
-  - php artisan key:generate
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --coverage-text
+  - phpcs --ignore=app/Http/Controllers/Auth,app/Http/Controllers/Controller.php app/Http/Controllers
+  - npm run production
+  - jshint resources/assets/js/modules/*
 
 # allow_failures: Allow this build to fail under the specified environments.
 # fast_finish: If your build fails do not continue trying to build, just stop.
@@ -31,3 +42,6 @@ notifications:
     on_success: never
     on_failure: always
     
+    email:
+    - ahmedmaher072@gmail.com
+    - ahmed.adel202090@gmail.com
