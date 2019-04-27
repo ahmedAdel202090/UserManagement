@@ -4,40 +4,20 @@ php:
   - 7.1
 
 before_script:
+  - mkdir bootstrap/cache
   - cp .env.travis .env
+  - mysql -e 'create database homestead_test;'
   - composer self-update
   - composer install --no-interaction
+  - php artisan key:generate
 
 script:
-  - php artisan key:generate
   - vendor/bin/phpunit
 
 cache:
   directories:
     - node_modules
     - vendor
-
-services:
-  - mysql
-    
-env:
-  - TRAVIS_NODE_VERSION="4"
-
-# Commands you want to run that will verify the build.
-script:
-  - phpdbg -qrr vendor/bin/phpunit --coverage-clover=coverage.xml
-  - vendor/bin/phpunit --coverage-text
-  - phpcs --ignore=app/Http/Controllers/Auth,app/Http/Controllers/Controller.php app/Http/Controllers
-  - npm run production
-  - jshint resources/assets/js/modules/*
-
-# allow_failures: Allow this build to fail under the specified environments.
-# fast_finish: If your build fails do not continue trying to build, just stop.
-matrix:
-  allow_failures:
-    - php: 7.1
-    - php: hhvm
-  fast_finish: true
 
 # When the notification emails are sent.
 notifications:
