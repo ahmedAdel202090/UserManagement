@@ -12,7 +12,7 @@ before_script:
 
 script:
   - vendor/bin/phpunit
-
+  - vendor/bin/phpunit --coverage-clover=coverage.xml
 cache:
   directories:
     - node_modules
@@ -26,3 +26,5 @@ notifications:
     email:
     - ahmedmaher072@gmail.com
     - ahmed.adel202090@gmail.com
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
