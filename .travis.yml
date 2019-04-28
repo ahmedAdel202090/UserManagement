@@ -12,6 +12,8 @@ before_script:
 
 script:
   - vendor/bin/phpunit
+  - vendor/myvendor/mypackage/vendor/phpunit/phpunit/phpunit vendor/myvendor/mypackage/Tests/ --coverage-clover=coverage.xml
+
 
 cache:
   directories:
@@ -26,3 +28,5 @@ notifications:
     email:
     - ahmedmaher072@gmail.com
     - ahmed.adel202090@gmail.com
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
