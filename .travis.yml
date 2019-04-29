@@ -10,8 +10,6 @@ before_script:
   - composer install --no-interaction
   - php artisan key:generate
 
-script:
- - vendor/myvendor/mypackage/vendor/phpunit/phpunit/phpunit vendor/myvendor/mypackage/tests/ --coverage-clover=coverage.xml
 cache:
   directories:
     - node_modules
