@@ -43,8 +43,8 @@ class UserController extends Controller
             }
         //check dataBase Logic
         $service=new UserService();
-        $insertionStatus=$service->userLogIn($request);
-        if($insertionStatus['status']=='success')
+        $logInStatus=$service->userLogIn($request);
+        if($logInStatus['status']=='success')
         {
             //successfully checked
             $response=['status'=>200,'msg'=>'successfully signed in'];

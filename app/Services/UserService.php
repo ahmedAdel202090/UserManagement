@@ -9,6 +9,8 @@ class UserService
     {
         if(User::where('email','=',$request->input('email'))->exists())
             return ['status'=>'faild','msg'=>'this email already exist'];
+        else
+        {
         $user=new User();
         $user->email=$request->input('email');
         $user->password=$request->input('password');
@@ -16,6 +18,7 @@ class UserService
         $user->phone=$request->input('phone');
         $user->save();
         return ['status'=>'success'];
+    }
     }
 
     public function userLogIn(Request $request){
@@ -27,8 +30,6 @@ class UserService
         {
             return ['status'=>'faild','msg'=>'invalid email OR password'];
         }
-
-
     }
 
 }
