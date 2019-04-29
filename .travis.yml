@@ -1,0 +1,29 @@
+language: php
+
+php:
+  - 7.1
+
+before_script:
+  - cp .env.travis .env
+  - mysql -e 'create database homestead_test;'
+  - composer self-update
+  - composer install --no-interaction
+  - php artisan key:generate
+
+script:
+  - vendor/bin/phpunit
+cache:
+  directories:
+    - node_modules
+    - vendor
+
+# When the notification emails are sent.
+notifications:
+    on_success: never
+    on_failure: always
+    
+    email:
+    - ahmedmaher072@gmail.com
+    - ahmed.adel202090@gmail.com
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
